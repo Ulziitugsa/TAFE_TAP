@@ -1,0 +1,6 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "5work_nfca4ce1a59",
+  "serviceType": "imported",
+  "region": "us-east-2"
+}

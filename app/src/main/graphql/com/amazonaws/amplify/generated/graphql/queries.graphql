@@ -1,0 +1,135 @@
+# this is an auto generated file. This will be overwritten
+query SyncStudents(
+  $filter: ModelStudentFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncStudents(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      student_id
+      given_name
+      family_name
+      email
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      owner
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetStudent($id: ID!) {
+  getStudent(id: $id) {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+query ListStudents(
+  $filter: ModelStudentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listStudents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      student_id
+      given_name
+      family_name
+      email
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      owner
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncLecturers(
+  $filter: ModelLecturerFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncLecturers(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      lecturer_id
+      given_name
+      family_name
+      email
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      owner
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetLecturer($id: ID!) {
+  getLecturer(id: $id) {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+query ListLecturers(
+  $filter: ModelLecturerFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listLecturers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      lecturer_id
+      given_name
+      family_name
+      email
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      owner
+    }
+    nextToken
+    startedAt
+  }
+}

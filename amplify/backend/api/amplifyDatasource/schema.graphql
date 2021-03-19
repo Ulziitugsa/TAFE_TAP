@@ -1,0 +1,16 @@
+type Student @model @auth(rules: [{allow: owner, operations: [create, delete, update]}])
+{
+      student_id: ID!
+      given_name: String!
+      family_name: String
+       email: String
+}
+type Lecturer
+    @model
+    @auth(rules: [{allow: owner, operations: [create, delete, update]}]){
+      lecturer_id: ID!
+      given_name: String!
+      family_name: String
+      email: String
+}
+

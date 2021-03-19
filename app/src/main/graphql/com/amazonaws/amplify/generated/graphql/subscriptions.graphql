@@ -1,0 +1,91 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateStudent {
+  onCreateStudent {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnUpdateStudent {
+  onUpdateStudent {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnDeleteStudent {
+  onDeleteStudent {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnCreateLecturer {
+  onCreateLecturer {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnUpdateLecturer {
+  onUpdateLecturer {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnDeleteLecturer {
+  onDeleteLecturer {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}

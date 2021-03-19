@@ -1,0 +1,109 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateStudent(
+  $input: CreateStudentInput!
+  $condition: ModelStudentConditionInput
+) {
+  createStudent(input: $input, condition: $condition) {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+mutation UpdateStudent(
+  $input: UpdateStudentInput!
+  $condition: ModelStudentConditionInput
+) {
+  updateStudent(input: $input, condition: $condition) {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+mutation DeleteStudent(
+  $input: DeleteStudentInput!
+  $condition: ModelStudentConditionInput
+) {
+  deleteStudent(input: $input, condition: $condition) {
+    id
+    student_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+mutation CreateLecturer(
+  $input: CreateLecturerInput!
+  $condition: ModelLecturerConditionInput
+) {
+  createLecturer(input: $input, condition: $condition) {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+mutation UpdateLecturer(
+  $input: UpdateLecturerInput!
+  $condition: ModelLecturerConditionInput
+) {
+  updateLecturer(input: $input, condition: $condition) {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
+mutation DeleteLecturer(
+  $input: DeleteLecturerInput!
+  $condition: ModelLecturerConditionInput
+) {
+  deleteLecturer(input: $input, condition: $condition) {
+    id
+    lecturer_id
+    given_name
+    family_name
+    email
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+    owner
+  }
+}
