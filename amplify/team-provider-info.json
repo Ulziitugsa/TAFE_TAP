@@ -1,38 +1,38 @@
 {
-    "tafetap": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-5worknfc-tafetap-205524-authRole",
-            "UnauthRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-authRole",
-            "Region": "us-east-2",
-            "DeploymentBucketName": "amplify-5worknfc-tafetap-205524-deployment",
-            "UnauthRoleName": "amplify-5worknfc-tafetap-205524-unauthRole",
-            "StackName": "amplify-5worknfc-tafetap-205524",
-            "StackId": "arn:aws:cloudformation:us-east-2:679494326724:stack/amplify-5worknfc-tafetap-205524/72777e30-7a78-11eb-9689-06164577b6a6",
-            "AmplifyAppId": "dqwz0f907n12i"
-        },
-        "categories": {
-            "auth": {
-                "5work_nfca4ce1a59": {
-                    "userPoolId": "us-east-2_wNE0RBKbm",
-                    "userPoolName": "TAFESA_USERS",
-                    "webClientId": "2h510k61mrnur047a7igvk4lcq",
-                    "nativeClientId": "2h510k61mrnur047a7igvk4lcq",
-                    "identityPoolId": "us-east-2:fb50a8ac-c088-461b-8580-2f3240cc8087",
-                    "identityPoolName": "Tafe_Tap",
-                    "allowUnauthenticatedIdentities": false,
-                    "authRoleArn": "arn:aws:iam::679494326724:role/Teacher_Role",
-                    "authRoleName": "Teacher_Role",
-                    "unauthRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-unauthRole",
-                    "unauthRoleName": "amplify-5worknfc-tafetap-205524-unauthRole"
-                }
-            },
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "dqwz0f907n12i",
-                    "type": "manual"
-                }
-            }
+  "tafetap": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-5worknfc-tafetap-205524-authRole",
+      "UnauthRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-5worknfc-tafetap-205524-deployment",
+      "UnauthRoleName": "amplify-5worknfc-tafetap-205524-unauthRole",
+      "StackName": "amplify-5worknfc-tafetap-205524",
+      "StackId": "arn:aws:cloudformation:us-east-2:679494326724:stack/amplify-5worknfc-tafetap-205524/72777e30-7a78-11eb-9689-06164577b6a6",
+      "AmplifyAppId": "dqwz0f907n12i"
+    },
+    "categories": {
+      "auth": {
+        "5work_nfca4ce1a59": {
+          "userPoolId": "us-east-2_wNE0RBKbm",
+          "userPoolName": "TAFESA_USERS",
+          "webClientId": "2h510k61mrnur047a7igvk4lcq",
+          "nativeClientId": "2h510k61mrnur047a7igvk4lcq",
+          "identityPoolId": "us-east-2:fb50a8ac-c088-461b-8580-2f3240cc8087",
+          "identityPoolName": "Tafe_Tap",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-authRole",
+          "authRoleName": "amplify-5worknfc-tafetap-205524-authRole",
+          "unauthRoleArn": "arn:aws:iam::679494326724:role/amplify-5worknfc-tafetap-205524-unauthRole",
+          "unauthRoleName": "amplify-5worknfc-tafetap-205524-unauthRole"
         }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dqwz0f907n12i",
+          "type": "manual"
+        }
+      }
     }
+  }
 }
