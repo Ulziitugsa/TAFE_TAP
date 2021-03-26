@@ -14,6 +14,9 @@ import com.auth0.android.jwt.JWT;
 
 import org.json.JSONException;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 public class MainActivity extends AppCompatActivity {
 
     String UserGroup = "";
@@ -21,6 +24,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Connection a = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con= DriverManager.getConnection(
+                    "studentserver.com.au:3306/admin_it_studies_dev","admin_nfc","Passw0rd!@#");
+
+
+        }
+        catch(Exception e)
+        {
+            Log.e("SQL ERRRORR", e.getMessage());
+        }
         AuthUser currentUser = Amplify.Auth.getCurrentUser();
 
         if(currentUser == null)
