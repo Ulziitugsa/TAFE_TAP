@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">TAFESA_NFC_Project</string>
+    <string name="app_name">Tafetap</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_scan">scan</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+
+    <string name="title_attendance">Attendance</string>
+    <string name="title_timetable">Timetable</string>
+    <string name="title_settings">Settings</string>
+
+    <string-array name="settings_strings">
+        <item>Account</item>
+        <item>Log Out</item>
+        <item>Change Password</item>
+        <item>Help</item>
+        <item>Legal and Policies</item>
+    </string-array>
+
 </resources>

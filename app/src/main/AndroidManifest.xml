@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tafesa_nfc_project">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".AmplifyApp"
         android:allowBackup="true"
@@ -11,18 +14,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TAFESA_NFC_Project"
+        android:usesCleartextTraffic="true"
         tools:replace="android:name">
-        <activity android:name=".TeacherMainActivity"></activity>
-        <activity android:name=".StudentMainActivity" />
+        <activity android:name=".StudentSettingsActivity"  android:configChanges="keyboardHidden|orientation"/>
+        <activity android:name=".StudentAttendanceActivity"  android:configChanges="keyboardHidden|orientation"/>
+        <activity android:name=".DateDetails" />
+        <activity android:name=".TeacherMainActivity" />
+        <activity android:name=".StudentMainActivity"  android:configChanges="keyboardHidden|orientation"/>
         <activity android:name=".BlankActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"/>
+
+
+
     </application>
 
 </manifest>

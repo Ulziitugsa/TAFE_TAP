@@ -25,21 +25,15 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 })
 public final class Lecturer implements Model {
   public static final QueryField ID = field("Lecturer", "id");
-  public static final QueryField LECTURER_ID = field("Lecturer", "lecturer_id");
   public static final QueryField GIVEN_NAME = field("Lecturer", "given_name");
   public static final QueryField FAMILY_NAME = field("Lecturer", "family_name");
   public static final QueryField EMAIL = field("Lecturer", "email");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="ID", isRequired = true) String lecturer_id;
   private final @ModelField(targetType="String", isRequired = true) String given_name;
   private final @ModelField(targetType="String") String family_name;
   private final @ModelField(targetType="String") String email;
   public String getId() {
       return id;
-  }
-  
-  public String getLecturerId() {
-      return lecturer_id;
   }
   
   public String getGivenName() {
@@ -54,9 +48,8 @@ public final class Lecturer implements Model {
       return email;
   }
   
-  private Lecturer(String id, String lecturer_id, String given_name, String family_name, String email) {
+  private Lecturer(String id, String given_name, String family_name, String email) {
     this.id = id;
-    this.lecturer_id = lecturer_id;
     this.given_name = given_name;
     this.family_name = family_name;
     this.email = email;
@@ -71,7 +64,6 @@ public final class Lecturer implements Model {
       } else {
       Lecturer lecturer = (Lecturer) obj;
       return ObjectsCompat.equals(getId(), lecturer.getId()) &&
-              ObjectsCompat.equals(getLecturerId(), lecturer.getLecturerId()) &&
               ObjectsCompat.equals(getGivenName(), lecturer.getGivenName()) &&
               ObjectsCompat.equals(getFamilyName(), lecturer.getFamilyName()) &&
               ObjectsCompat.equals(getEmail(), lecturer.getEmail());
@@ -82,7 +74,6 @@ public final class Lecturer implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
-      .append(getLecturerId())
       .append(getGivenName())
       .append(getFamilyName())
       .append(getEmail())
@@ -95,7 +86,6 @@ public final class Lecturer implements Model {
     return new StringBuilder()
       .append("Lecturer {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("lecturer_id=" + String.valueOf(getLecturerId()) + ", ")
       .append("given_name=" + String.valueOf(getGivenName()) + ", ")
       .append("family_name=" + String.valueOf(getFamilyName()) + ", ")
       .append("email=" + String.valueOf(getEmail()))
@@ -103,7 +93,7 @@ public final class Lecturer implements Model {
       .toString();
   }
   
-  public static LecturerIdStep builder() {
+  public static GivenNameStep builder() {
       return new Builder();
   }
   
@@ -130,23 +120,16 @@ public final class Lecturer implements Model {
       id,
       null,
       null,
-      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      lecturer_id,
       given_name,
       family_name,
       email);
   }
-  public interface LecturerIdStep {
-    GivenNameStep lecturerId(String lecturerId);
-  }
-  
-
   public interface GivenNameStep {
     BuildStep givenName(String givenName);
   }
@@ -160,9 +143,8 @@ public final class Lecturer implements Model {
   }
   
 
-  public static class Builder implements LecturerIdStep, GivenNameStep, BuildStep {
+  public static class Builder implements GivenNameStep, BuildStep {
     private String id;
-    private String lecturer_id;
     private String given_name;
     private String family_name;
     private String email;
@@ -172,17 +154,9 @@ public final class Lecturer implements Model {
         
         return new Lecturer(
           id,
-          lecturer_id,
           given_name,
           family_name,
           email);
-    }
-    
-    @Override
-     public GivenNameStep lecturerId(String lecturerId) {
-        Objects.requireNonNull(lecturerId);
-        this.lecturer_id = lecturerId;
-        return this;
     }
     
     @Override
@@ -227,17 +201,11 @@ public final class Lecturer implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String lecturerId, String givenName, String familyName, String email) {
+    private CopyOfBuilder(String id, String givenName, String familyName, String email) {
       super.id(id);
-      super.lecturerId(lecturerId)
-        .givenName(givenName)
+      super.givenName(givenName)
         .familyName(familyName)
         .email(email);
-    }
-    
-    @Override
-     public CopyOfBuilder lecturerId(String lecturerId) {
-      return (CopyOfBuilder) super.lecturerId(lecturerId);
     }
     
     @Override

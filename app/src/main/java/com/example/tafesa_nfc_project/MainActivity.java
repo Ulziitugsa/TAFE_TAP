@@ -1,9 +1,15 @@
 package com.example.tafesa_nfc_project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
@@ -11,31 +17,23 @@ import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
 import com.auth0.android.jwt.JWT;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
+import java.util.Properties;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     String UserGroup = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Connection a = null;
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con= DriverManager.getConnection(
-                    "studentserver.com.au:3306/admin_it_studies_dev","admin_nfc","Passw0rd!@#");
-
-
-        }
-        catch(Exception e)
-        {
-            Log.e("SQL ERRRORR", e.getMessage());
-        }
         AuthUser currentUser = Amplify.Auth.getCurrentUser();
 
         if(currentUser == null)
@@ -71,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    Log.e("DUMBASS", e.getMessage());
+                                    Intent intent1 = new Intent(this, LoginActivity.class);
+                                    startActivity(intent1);
                                 }
 
 
