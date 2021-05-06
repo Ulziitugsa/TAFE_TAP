@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_timetable">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.tafesa_nfc_project.StudentAttendanceActivity"
+        android:label="@string/title_home"
+        tools:layout="@layout/activity_student_attendance" />
+
+    <fragment
+        android:id="@+id/navigation_timetable"
+        android:name="com.example.tafesa_nfc_project.StudentMainActivity"
+        android:label="@string/title_timetable"
+        tools:layout="@layout/activity_student_main" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.tafesa_nfc_project.StudentSettingsActivity"
+        android:label="@string/title_settings"
+        tools:layout="@layout/activity_student_settings" />
+</navigation>
