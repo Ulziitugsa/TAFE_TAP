@@ -1,15 +1,9 @@
 package com.example.tafesa_nfc_project;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
@@ -26,7 +20,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Properties;
 
-public class MainActivity extends AppCompatActivity  {
+public class    MainActivity extends AppCompatActivity  {
 
     String UserGroup = "";
     @Override
@@ -35,6 +29,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AuthUser currentUser = Amplify.Auth.getCurrentUser();
+
 
         if(currentUser == null)
         {
