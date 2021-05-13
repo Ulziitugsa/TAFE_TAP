@@ -31,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onPressLogin(View view) {
-        EditText txtEmail = findViewById(R.id.txtEmail);
-        EditText txtPassword = findViewById(R.id.txtPassword);
+        EditText txtEmail = view.findViewById(R.id.txtEmail);
+        EditText txtPassword = view.findViewById(R.id.txtPassword);
 
         Amplify.Auth.signIn(
                 txtEmail.getText().toString(),
@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         Object a = Amplify.Auth.getCurrentUser();
+        //Needs Validation  for empty textboxes
     }
 
     private void onLoginError(AuthException e) {

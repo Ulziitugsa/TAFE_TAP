@@ -19,11 +19,12 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-
+    <!-- Pages title names -->
     <string name="title_attendance">Attendance</string>
     <string name="title_timetable">Timetable</string>
     <string name="title_settings">Settings</string>
 
+    <!-- Settings temp strings -->
     <string-array name="settings_strings">
         <item>Account</item>
         <item>Log Out</item>
@@ -31,5 +32,8 @@
         <item>Help</item>
         <item>Legal and Policies</item>
     </string-array>
+    <!-- Date Details temp strings -->
+
+
 
 </resources>

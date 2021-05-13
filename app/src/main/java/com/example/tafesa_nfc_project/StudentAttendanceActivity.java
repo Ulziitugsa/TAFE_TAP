@@ -63,10 +63,8 @@ public class StudentAttendanceActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        });     
 
-        TextView title = (TextView) findViewById(R.id.activityTitle1);
-        title.setText("This is the student Attendance Activity");
 
 
     }

@@ -1,6 +1,9 @@
 package com.example.tafesa_nfc_project;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -24,39 +26,96 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class DateDetails extends AppCompatActivity {
-    ListView listView;
-    @Override
+    //Expandable ListView
+    //ExpandableListView expandableListView;
+
+    ListView listView; //remove later
+	ArrayList<String> listGroup = new ArrayList<>();
+	HashMap<String,ArrayList<String>> listChild = new HashMap<>();
+	ListAdapter adapter;
+	//Expandable recyclerView
+	RecyclerView recyclerView;
+	List<Subjects> subjectsList;
+    
+    
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_date_details);
+		setContentView(R.layout.activity_date_details);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
         String id = null;
-        listView = (ListView) findViewById(R.id.listView);
-        Date j =null;
+        listView = (ListView) findViewById(R.id.listView); //change later
+
+        //expandableListView = findViewById(R.id.exp_list_view);
+		Date j =null;
         if(b!=null)
         {
             id = (String) b.get("ID");
             j = (Date) b.get("date");
             Log.i("AAAA", j.toString());
-
         }
         int date = j.getDate();
         int month = j.getMonth() +1;
-        int year = j.getYear()+1900;
+        int year;
+        year = j.getYear()+1900;
 
         Calendar c = Calendar.getInstance();
         c.setTime(j);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
-        downloadJSON("http://10.64.97.28:8080/test/DateDetails.php", date, month, year , dayOfWeek, id);
+        //IP Address 10.64.97.28:8080 / 192.168.1.181 / 10.62.13.220
+        downloadJSON("http://192.168.1.181/test/DateDetails.php", date, month, year , dayOfWeek, id);
 
+        // recyclerview stuff
+        recyclerView = findViewById(R.id.recyclerView);
+        setRecyclerView();
+        initData();
+		/*//Using for loop for expandableListView
+		for(int g=0;g<=10;g++){
+			//Add values in group list 
+			listGroup.add("Group"+g);
+			//Initialize array list 
+			ArrayList<String> arrayList = new ArrayList<>();
+			//Use for loop
+			for (int gg=0; gg<=1; gg++){
+				//Add values in array list 
+				arrayList.add("Item"+c);
+			}
+			//put values in child list 
+			listChild.put(listGroup.get(g),arrayList);
+		}
+		//Initialize adapter
+        adapter = new ListAdapter(listGroup, listChild);
+		//Set Adapter
+        expandableListView.setAdapter(adapter);
+        */
 
     }
+
+    private List<Subjects> initData() {
+        subjectsList = new ArrayList<>();
+        subjectsList.add(new Subjects("5JAW","12-08-2021","9:00 AM - 11:00 AM", "Room B.B03"));
+        subjectsList.add(new Subjects("5SDA","13-08-2021","9:00 AM - 11:00 AM", "Room B.B03"));
+        subjectsList.add(new Subjects("5IOSMD","14-08-2021","9:00 AM - 11:00 AM", "Room B.B03"));
+        return subjectsList;
+    }
+
+    private void setRecyclerView() {
+        SubjectsAdapter subjectsAdapter = new SubjectsAdapter(subjectsList);
+        recyclerView.setAdapter(subjectsAdapter);
+        recyclerView.setHasFixedSize(true);
+	}
 
     //for getting data from mysql php json
     private void downloadJSON(final String urlWebService, int date, int month, int year, int DayOfWeek, String id) {
@@ -67,7 +126,6 @@ public class DateDetails extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
             }
-
 
             @Override
             protected void onPostExecute(String s) {
@@ -126,5 +184,6 @@ public class DateDetails extends AppCompatActivity {
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks);
         listView.setAdapter(arrayAdapter);
+        //Jsonobject to recycler view
     }
 }
