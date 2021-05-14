@@ -17,7 +17,12 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
-
+	<!--
+	  Clickable Recycler View that displays classes per day/week on the page
+        4 TextViews and 1 imageView
+        Expandable to show more details (1 TextView)
+        OnClickEvent to expand
+	-->
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/recyclerView"
 		android:layout_width="match_parent"

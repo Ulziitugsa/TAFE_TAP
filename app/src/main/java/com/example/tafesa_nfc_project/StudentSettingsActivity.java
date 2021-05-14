@@ -93,7 +93,7 @@ public class StudentSettingsActivity extends AppCompatActivity {
         }
         */
         Object ini = inintmLis("Here is CardView", "Cool effects hey", R.drawable.ic_arrow_back_ios_black_24dp);
-        for (int i=0;i<=5;i++){
+        for (int i=0;i<=100;i++){
             list.add((ArrayList) ini);
         }
         return list;

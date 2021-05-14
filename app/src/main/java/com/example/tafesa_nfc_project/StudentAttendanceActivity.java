@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class StudentAttendanceActivity extends AppCompatActivity {
-
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,76 +65,36 @@ public class StudentAttendanceActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });     
-
-
-
-    }
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.activity_student_attendance, container, false);
-
-        final ListView listview = (ListView) findViewById(R.id.home_list);
-        String[] values = new String[] { "Account", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-        //String[] values = getResources().getStringArray(R.array.attdnc_strings);
-
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        final StableArrayAdapter adapter = new StableArrayAdapter(StudentAttendanceActivity.this,
-                android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-              /*  final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            }
-                        });*/
-            }
-
         });
-        return root;
+        // recyclerview stuff
+        recyclerView = findViewById(R.id.home_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new SettingsAdapter(getApplicationContext(), inintList()));
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
+    public ArrayList inintList () {
+        ArrayList<ArrayList> list = new ArrayList<ArrayList>();
+       /*
+        list.add(inintmLis("Here is CardView", "Cool effects hey", R.drawable.ic_arrow_back_ios_black_24dp));
+        String[] splitStr = authors.split("\\*");
+        for (int i=0;i<splitStr.length;i++) {
+            books.add(splitStr[i]);
         }
-
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
+        */
+        Object ini = inintmLis("Here is CardView", "Cool effects hey", R.drawable.ic_arrow_back_ios_black_24dp);
+        for (int i=0;i<=5;i++){
+            list.add((ArrayList) ini);
         }
+        return list;
 
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
+    }
+
+    private ArrayList inintmLis (String str1, String str2,int s){
+        ArrayList list1 = new ArrayList();
+        list1.add(str1);
+        list1.add(str2);
+        list1.add(s);
+        return list1;
     }
 }
