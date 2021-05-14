@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +30,11 @@ import java.net.URLEncoder;
 import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateDetails extends AppCompatActivity {
     ListView listView;
+    List<String> listGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,8 @@ public class DateDetails extends AppCompatActivity {
         Bundle b = iin.getExtras();
         String id = null;
         listView = (ListView) findViewById(R.id.listView);
+
+
         Date j =null;
         if(b!=null)
         {
@@ -53,7 +60,7 @@ public class DateDetails extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         c.setTime(j);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
-        downloadJSON("http://10.64.97.28:8080/test/DateDetails.php", date, month, year , dayOfWeek, id);
+        downloadJSON("http://10.64.96.212:8080/test/DateDetails.php", date, month, year , dayOfWeek, id);
 
 
     }
@@ -126,5 +133,6 @@ public class DateDetails extends AppCompatActivity {
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks);
         listView.setAdapter(arrayAdapter);
+
     }
 }

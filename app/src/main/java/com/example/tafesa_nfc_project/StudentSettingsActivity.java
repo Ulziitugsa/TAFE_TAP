@@ -35,7 +35,7 @@ public class StudentSettingsActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
             //changes the menu button colors
             Menu menu = bottomNavigationView.getMenu();
-            MenuItem menuItem = menu.getItem(3);
+            MenuItem menuItem = menu.getItem(2);
             menuItem.setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
