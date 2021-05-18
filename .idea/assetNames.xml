@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="assetNames">
+    <option name="mapping">
+      <map>
+        <entry key="absent_sts" value="status_absent" />
+        <entry key="adobe_xd_icon" value="settings_account" />
+        <entry key="after_effects_icon" value="settings_pw" />
+        <entry key="background" value="list_bg" />
+        <entry key="figma_icon" value="settings_help" />
+        <entry key="invalid_sts" value="status_invalid" />
+        <entry key="light_bottom_nav_tab_on_primary-1" value="light_bottom_nav_tab_on_primary_1" />
+        <entry key="light_bottom_nav_tab_on_primary-2" value="light_bottom_nav_tab_on_primary_2" />
+        <entry key="light_elevation_00dp-1" value="light_elevation_00dp_1" />
+        <entry key="light_elevation_00dp-2" value="light_elevation_00dp_2" />
+        <entry key="light_elevation_00dp-3" value="light_elevation_00dp_3" />
+        <entry key="none_sts" value="status_none" />
+        <entry key="online_sts" value="status_online" />
+        <entry key="photoshop_icon" value="settings_legal" />
+        <entry key="play_button_25-1" value="status_present" />
+        <entry key="play_button_25-10" value="play_button_25_10" />
+        <entry key="play_button_25-11" value="play_button_25_11" />
+        <entry key="play_button_25-12" value="play_button_25_12" />
+        <entry key="play_button_25-13" value="play_button_25_13" />
+        <entry key="play_button_25-14" value="play_button_25_14" />
+        <entry key="play_button_25-15" value="play_button_25_15" />
+        <entry key="play_button_25-16" value="play_button_25_16" />
+        <entry key="play_button_25-17" value="play_button_25_17" />
+        <entry key="play_button_25-18" value="play_button_25_18" />
+        <entry key="play_button_25-19" value="play_button_25_19" />
+        <entry key="play_button_25-2" value="play_button_25_2" />
+        <entry key="play_button_25-20" value="play_button_25_20" />
+        <entry key="play_button_25-21" value="play_button_25_21" />
+        <entry key="play_button_25-22" value="play_button_25_22" />
+        <entry key="play_button_25-3" value="play_button_25_3" />
+        <entry key="play_button_25-4" value="status_absent" />
+        <entry key="play_button_25-5" value="play_button_25_5" />
+        <entry key="play_button_25-6" value="status_invalid" />
+        <entry key="play_button_25-7" value="play_button_25_7" />
+        <entry key="play_button_25-8" value="status_online" />
+        <entry key="play_button_25-9" value="play_button_25_9" />
+        <entry key="present_sts" value="status_present" />
+        <entry key="sketch_icon" value="settings_logout" />
+      </map>
+    </option>
+  </component>
+</project>
