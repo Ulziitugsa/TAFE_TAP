@@ -12,6 +12,7 @@
         Not expandable
         OnClickEvent may transfer to another activity or fragments
         Log out button should function
+
     -->
 
     <!-- probably change it to margins if it doesn't work -->

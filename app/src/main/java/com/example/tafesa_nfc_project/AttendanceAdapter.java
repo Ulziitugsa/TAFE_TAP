@@ -39,12 +39,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
     @NonNull
     @Override
     public AttendanceVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.settings_view, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.attendance_view, parent, false);
         //Prolly for the Array?
         cv = (CardView) view.findViewById(R.id.cardView);
         tv1 = (TextView) view.findViewById(R.id.textView1);
         tv2 = (TextView) view.findViewById(R.id.textView2);
-        iv = (ImageView) view.findViewById(R.id.image1);
+        iv = (ImageView) view.findViewById(R.id.imgStatus);
         AttendanceVH viewHolder = new AttendanceVH(view) {
         };
         return viewHolder;

@@ -20,7 +20,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Versio
     @NonNull
     @Override
     public VersionVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.attendance_view, parent,false);
         return new VersionVH(view);
     }
 

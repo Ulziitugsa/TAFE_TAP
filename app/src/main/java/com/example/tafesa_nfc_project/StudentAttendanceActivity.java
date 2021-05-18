@@ -70,7 +70,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.home_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new SettingsAdapter(getApplicationContext(), inintList()));
+        recyclerView.setAdapter(new AttendanceAdapter(getApplicationContext(), inintList()));
     }
 
     public ArrayList inintList () {
@@ -82,7 +82,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
             books.add(splitStr[i]);
         }
         */
-        Object ini = inintmLis("Here is CardView", "Cool effects hey", R.drawable.ic_arrow_back_ios_black_24dp);
+        Object ini = inintmLis("Week Name", "Date & No. of Hours", R.drawable.status_none);
         for (int i=0;i<=5;i++){
             list.add((ArrayList) ini);
         }

@@ -11,5 +11,7 @@
     <color name="red_200">#EEC2C7</color>
     <color name="red_500">#BD1427</color>
     <color name="red_700">#B11325</color>
+    <color name="grey_text">#525252</color>
+    
 
 </resources>
