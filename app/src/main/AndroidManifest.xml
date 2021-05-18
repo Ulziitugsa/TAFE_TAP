@@ -14,13 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TAFESA_NFC_Project"
         android:usesCleartextTraffic="true"
-        tools:replace="android:name" >
-        <activity android:name=".StudentSettingsActivity"  android:configChanges="keyboardHidden|orientation"/>
-        <activity android:name=".StudentAttendanceActivity"  android:configChanges="keyboardHidden|orientation"/>
-        <activity android:name=".DateDetails" android:parentActivityName=".StudentMainActivity"/>
-
+        tools:replace="android:name">
+        <activity
+            android:name=".StudentSettingsActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".StudentAttendanceActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".DateDetails" />
         <activity android:name=".TeacherMainActivity" />
-        <activity android:name=".StudentMainActivity"  android:configChanges="keyboardHidden|orientation">
+        <activity
+            android:name=".StudentMainActivity"
+            android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -41,6 +41,7 @@ import java.util.jar.Attributes;
 public class StudentMainActivity extends AppCompatActivity {
 
     ListView listView;
+    Student user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,7 @@ public class StudentMainActivity extends AppCompatActivity {
                         startActivity(intent3);
                         overridePendingTransition(R.anim.slide_to_left, R.anim.slide_to_right);
                         break;
+
                 }
                 return false;
             }
@@ -85,16 +87,21 @@ public class StudentMainActivity extends AppCompatActivity {
         TextView NameTxt = (TextView)findViewById(R.id.textView3);
 
         CalendarView calendarView=(CalendarView) findViewById(R.id.calendarView1);
-        Student user = getUserDetailsfromSession();
+        user = getUserDetailsfromSession();
+
         NameTxt.setText(user.given_name);
+        Log.i("ACDC", "A:" + user.getId());
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
                 month++;
+
                 DateClickListener(year, month, dayOfMonth, user.id);
+
             }
-        });
+        })  ;
 
 
 
@@ -141,15 +148,16 @@ public class StudentMainActivity extends AppCompatActivity {
         intent.putExtra("date", result );
         startActivity(intent);
     }
-
+    Student student = new Student();
+    String[] id = {null};
+    String[] UserGivenName = {null};
+    String[] email = {null};
+    String[] family_name = {null};
     public Student getUserDetailsfromSession()
     {
-        final Student student = new Student();
+
         //Getting user information from the userpool
-        final String[] id = {null};
-        final String[] UserGivenName = {null};
-        final String[] email = {null};
-        final String[] family_name = {null};
+
         Amplify.Auth.fetchAuthSession(
                 result -> {
                     AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
@@ -189,7 +197,15 @@ public class StudentMainActivity extends AppCompatActivity {
                 },
                 error -> Log.e("AuthQuickStart", error.toString())
         );
+
         return student;
 
     }
+
+    public String UserGetName()
+    {
+        return user.given_name;
+    }
+
+
 }

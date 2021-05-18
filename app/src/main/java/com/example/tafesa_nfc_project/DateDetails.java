@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,8 +46,8 @@ public class DateDetails extends AppCompatActivity {
 	//Expandable recyclerView
 	RecyclerView recyclerView;
 	List<Subjects> subjectsList;
-    
-    
+
+
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +77,8 @@ public class DateDetails extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         c.setTime(j);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
+        downloadJSON("http://10.64.96.212:8080/test/DateDetails.php", date, month, year , dayOfWeek, id);
         //IP Address 10.64.97.28:8080 / 192.168.1.181 / 10.62.13.220
-        downloadJSON("http://192.168.1.181/test/DateDetails.php", date, month, year , dayOfWeek, id);
 
         // recyclerview stuff
         recyclerView = findViewById(R.id.recyclerView);
@@ -83,16 +86,16 @@ public class DateDetails extends AppCompatActivity {
         initData();
 		/*//Using for loop for expandableListView
 		for(int g=0;g<=10;g++){
-			//Add values in group list 
+			//Add values in group list
 			listGroup.add("Group"+g);
-			//Initialize array list 
+			//Initialize array list
 			ArrayList<String> arrayList = new ArrayList<>();
 			//Use for loop
 			for (int gg=0; gg<=1; gg++){
-				//Add values in array list 
+				//Add values in array list
 				arrayList.add("Item"+c);
 			}
-			//put values in child list 
+			//put values in child list
 			listChild.put(listGroup.get(g),arrayList);
 		}
 		//Initialize adapter
@@ -126,6 +129,7 @@ public class DateDetails extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
             }
+
 
             @Override
             protected void onPostExecute(String s) {
