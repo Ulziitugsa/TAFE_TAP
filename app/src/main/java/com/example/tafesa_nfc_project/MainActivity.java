@@ -16,12 +16,15 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcA;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,6 +41,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -83,36 +87,45 @@ public class    MainActivity extends AppCompatActivity  {
         RoomNum = readFromIntent(getIntent());
         Toast.makeText(context, "NFC content: " + RoomNum,Toast.LENGTH_SHORT ).show();
         AuthUser currentUser = Amplify.Auth.getCurrentUser();
-        if(RoomNum != "") {
 
-            NFCMainFunc(RoomNum);
-        }
-
-        if (currentUser == null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            finish();
-            //go to login screen
-        } else {
-            Amplify.Auth.fetchAuthSession(
+            if (currentUser == null) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+                //go to login screen
+            }
+            else
+            {
+                Amplify.Auth.fetchAuthSession(
                     result -> {
                         AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
                         switch (cognitoAuthSession.getIdentityId().getType()) {
                             case SUCCESS:
                                 JWT token = new JWT(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken());
-                                Intent intent = new Intent(this, BlankActivity.class);
+                                Intent intent;
                                 try {
                                     UserGroup = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("cognito:groups");
                                     Log.i("AuthQuickStartwtfistji", "IdentityId: " + UserGroup);
                                     Log.i("THeFUCKIS", "IdentityId: " + UserGroup);
                                     Log.i("THeFUCKIS", "IdentityId: " + UserGroup.contains("Students"));
                                     if (UserGroup.contains("Students")) {
-                                        intent = new Intent(this, StudentMainActivity.class);
+                                        Log.i("PLSSSS", "a");
+                                        if(RoomNum != "") {
+                                            nfcScan.setVisibility(view.VISIBLE);
+                                            NFCMainFunc(RoomNum);
+                                        }
+                                        else {
+                                            intent = new Intent(this, StudentMainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+
                                     } else if (UserGroup.contains("Lecturers")) {
                                         intent = new Intent(this, TeacherMainActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
-                                    startActivity(intent);
-                                    finish();
+
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -133,23 +146,12 @@ public class    MainActivity extends AppCompatActivity  {
         }
 
 
-    }
+        }
+
 
     void NFCMainFunc (String RoomNum)
     {
-        AuthUser currentUser = Amplify.Auth.getCurrentUser();
-
-        if (currentUser == null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            finish();
-            //go to login screen
-        }
-        else {
-            Log.i("bsmuhaha", "a" );
             CheckIfUserBelongsTotheRoom(UserGetId(), RoomNum);
-        }
-
     }
 
     private void CheckIfUserBelongsTotheRoom(String userGetId, String roomNum) {
@@ -158,7 +160,7 @@ public class    MainActivity extends AppCompatActivity  {
         SimpleDateFormat tf = new SimpleDateFormat("00:HH:mm", Locale.getDefault());
         String formattedDate = df.format(c);
         String formattedTime = tf.format(c);
-        downloadJSON("http://10.64.96.238:8080/test/ScanIn.php", roomNum, userGetId, formattedDate, formattedTime);
+        downloadJSON("http://192.168.0.120:8080/test/ScanIn.php", roomNum, userGetId, formattedDate, formattedTime);
     }
 
     private void downloadJSON(final String urlWebService,  String roomNum, String id, String Date, String Time) {
@@ -213,6 +215,8 @@ public class    MainActivity extends AppCompatActivity  {
                 } catch (Exception e) {
                     return null;
                 }
+
+
             }
         }
         DownloadJSON getJSON = new DownloadJSON();
