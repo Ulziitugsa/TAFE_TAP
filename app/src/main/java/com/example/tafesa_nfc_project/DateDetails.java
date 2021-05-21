@@ -60,7 +60,7 @@ public class DateDetails extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         c.setTime(j);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
-        downloadJSON("http://10.64.96.212:8080/test/DateDetails.php", date, month, year , dayOfWeek, id);
+        downloadJSON("http://10.64.96.238:8080/test/DateDetails.php", date, month, year , dayOfWeek, id);
 
 
     }

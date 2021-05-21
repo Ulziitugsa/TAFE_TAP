@@ -67,7 +67,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
         {
 
 
-            downloadJSON("http://10.64.96.212:8080/test/weekDates.php", year, TermNum, UserGetId());
+            downloadJSON("http://10.64.96.238:8080/test/weekDates.php", year, TermNum, UserGetId());
 
         }
 
