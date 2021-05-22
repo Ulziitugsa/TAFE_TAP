@@ -4,12 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +47,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -54,7 +61,7 @@ import java.util.List;
 
 public class StudentAttendanceActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-
+    //spinner
     public String StartDate = "";
     public String EndDate = "";
     int TermNum = 2;
@@ -63,6 +70,12 @@ public class StudentAttendanceActivity extends AppCompatActivity {
     List<String> WeekDates;
     String[] termSubjects;
     Student user = getUserDetailsfromSession();
+    //Subject
+    TextView subjectTitle;
+    ImageView leftChange;
+    ImageView rightChange;
+     ArrayList<String> subjects;
+     int index = 0;
     @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -73,10 +86,8 @@ public class StudentAttendanceActivity extends AppCompatActivity {
 
         if(user != null)
         {
-
-
-            downloadJSON("http://10.64.96.212:8080/test/weekDates.php", year, TermNum, UserGetId());
-
+            //Xampp
+            downloadJSON("http://10.62.114.248:80/test/weekDates.php", year, TermNum, UserGetId());
         }
 
         //Bottom Navigation View
@@ -107,13 +118,38 @@ public class StudentAttendanceActivity extends AppCompatActivity {
             }
             return true;
         });
-        // recyclerview stuff
-        recyclerView = findViewById(R.id.home_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new AttendanceAdapter(getApplicationContext(), inintList()));
-    }
 
+        //Term dates
+        //get the spinner from the xml.
+        Spinner dropdown = findViewById(R.id.termBox);
+        //create a list of items for the spinner.
+        String[] items = new String[]{"Term 4","Term 1 ","Term 2 "};
+        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+        //There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        //set the spinners adapter to the previously created one.
+        dropdown.setAdapter(adapter);
+        dropdown.setSelection(TermNum);
+
+        //Subject Title and buttons
+        subjectTitle = findViewById(R.id.subjectTitle);
+        leftChange = findViewById(R.id.leftImgButton);
+        rightChange = findViewById(R.id.rightImgButton);
+        /*rightChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (index < subjects.size()) {
+                    newText.setText( (CharSequence) subjects.get( index + 1 ) );
+                    index = index+1;
+                    return;
+                }
+                if (index == subjects.size()) {
+                    newText.setText( (CharSequence) subjects.get( 0 ) );
+                    index = 0;
+                }
+              }
+            }); */
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -147,11 +183,11 @@ public class StudentAttendanceActivity extends AppCompatActivity {
 
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 7), date = start.getTime()) {
             WeekNum++;
-            String temp = "Week " + WeekNum  + ", Date:" + date.toString();
+            String temp = "Week " + WeekNum  + "//" + date.toString();
             list.add(temp);
 
         }
-
+        Log.i("test123list", String.valueOf(list));
         return list;
     }
 
@@ -196,8 +232,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
                     String data =
                                 URLEncoder.encode("year", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(year), "UTF-8")
                                 +"&&"+URLEncoder.encode("termcode", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(TermCode), "UTF-8")
-                                +"&&"+URLEncoder.encode("id", "UTF-8")+"="+ URLEncoder.encode(id, "UTF-8");
-
+                                +"&&"+URLEncoder.encode("id", "UTF-8")+"="+ URLEncoder.encode(UserGetId(), "UTF-8");
 
                     writer.write(data);
                     writer.flush();
@@ -230,12 +265,22 @@ public class StudentAttendanceActivity extends AppCompatActivity {
             StartDate = obj.getString("StartDate");
             EndDate = obj.getString("EndDate");
             termSubjects[i] = obj.getString("SubjectCode");
-
         }
-        WeekDates = WeekDates();
+        subjects = new ArrayList<String>(Arrays.asList(termSubjects));
+        subjectTitle.setText((CharSequence) subjects.get(0));
+        // recyclerview stuff
+        recyclerView = findViewById(R.id.home_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new AttendanceAdapter(getApplicationContext(), inintList()));
+        /* //Item Divider
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getApplicationContext(),DividerItemDecoration.VERTICAL);
+        Drawable mDivider = ContextCompat.getDrawable(this, R.drawable.list_divider);
+        itemDecoration.setDrawable(mDivider);
+        recyclerView.addItemDecoration(itemDecoration);     */
+        
         Log.i("test123Start", StartDate);
         Log.i("test123End", EndDate);
-        Log.i("test123Week", WeekDates.toString());
         Log.i("test123Sub", Arrays.toString(termSubjects));
 
 
@@ -254,17 +299,11 @@ public class StudentAttendanceActivity extends AppCompatActivity {
                     AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
                     switch(cognitoAuthSession.getIdentityId().getType()) {
                         case SUCCESS:
-
-
-
                             try {
                                 id[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("custom:Student_ID");
                                 UserGivenName[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("given_name");
                                 email[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("email");
                                 family_name[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("family_name");
-
-
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -297,18 +336,17 @@ public class StudentAttendanceActivity extends AppCompatActivity {
     {
         return user.id;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList inintList () {
         ArrayList<ArrayList> list = new ArrayList<ArrayList>();
-       /*
-        list.add(inintmLis("Here is CardView", "Cool effects hey", R.drawable.ic_arrow_back_ios_black_24dp));
-        String[] splitStr = authors.split("\\*");
-        for (int i=0;i<splitStr.length;i++) {
-            books.add(splitStr[i]);
-        }
-        */
-        Object ini = inintmLis("Week Name", "Date & No. of Hours", R.drawable.status_none);
-        for (int i=0;i<=5;i++){
+        WeekDates = WeekDates();
+       for(String a: WeekDates)
+        {
+            String [] out = a.split("//");
+            Log.i("ABCDEF", out.toString());
+            Object ini = inintmLis(out[0], out[1], R.drawable.status_none);
             list.add((ArrayList) ini);
+
         }
         return list;
 
@@ -320,5 +358,38 @@ public class StudentAttendanceActivity extends AppCompatActivity {
         list1.add(str2);
         list1.add(s);
         return list1;
+    }
+
+    
+    public void leftOnClick(View view) {
+        int size = subjects.size() - 1;
+         if (index == 0) {
+             subjectTitle.setText((CharSequence) subjects.get(size));
+             index = size;
+         }
+        else if (index <= size) {
+            subjectTitle.setText( (CharSequence) subjects.get( index - 1 ) );
+            index = index -1;
+            return;
+        }
+        else{
+          return;
+        }
+    }
+
+    public void rightOnClick(View view) {
+         int size = subjects.size() - 1;
+          if (index == size) {
+              subjectTitle.setText((CharSequence) subjects.get(0));
+              index = 0;
+          }
+         else if (index < size) {
+             subjectTitle.setText( (CharSequence) subjects.get( index + 1 ) );
+             index = index +1;
+             return;
+         }
+         else{
+           return;
+         }
     }
 }

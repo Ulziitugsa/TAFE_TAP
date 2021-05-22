@@ -18,7 +18,6 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
     ArrayList<ArrayList> mlist;
     TextView tv1;
     TextView tv2;
-    TextView tv3;
     ImageView iv;
     CardView cv;
     //OnItemClickListener
@@ -40,11 +39,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
     @Override
     public AttendanceVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.attendance_view, parent, false);
-        //Prolly for the Array?
+        /*//Prolly for the Array?
         cv = (CardView) view.findViewById(R.id.cardView);
         tv1 = (TextView) view.findViewById(R.id.textView1);
         tv2 = (TextView) view.findViewById(R.id.textView2);
-        iv = (ImageView) view.findViewById(R.id.imgStatus);
+        iv = (ImageView) view.findViewById(R.id.imgStatus);*/
         AttendanceVH viewHolder = new AttendanceVH(view) {
         };
         return viewHolder;
@@ -52,33 +51,28 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
 
     @Override
     public void onBindViewHolder(@NonNull AttendanceVH holder, int position) {
-        tv1.setText((String) mlist.get(position).get(0));
-        tv2.setText((String) mlist.get(position).get(1));
-        iv.setImageResource((int) mlist.get(position).get(2));
-
+        ArrayList listDeets = mlist.get(position);
+        tv1.setText((String)listDeets.get(0));
+        tv2.setText((String) listDeets.get(1));
+        iv.setImageResource((int) listDeets.get(2));
+        //
 
     }
 
     @Override
     public int getItemCount() {
-        int limit = 6;
-        if(mlist.size() > limit){
-            return limit;
-        }
-        else
-        {
-            return mlist.size();
-        }
+        return mlist.size();
 
     }
 
     public class AttendanceVH extends RecyclerView.ViewHolder {
-        //May change
-        public ImageView mImageView;
-        public TextView mTextViewCreator;
-        public TextView mTextViewLikes;
+
         public AttendanceVH(@NonNull View view) {
             super(view);
+                tv1 = view.findViewById(R.id.textView1);
+                tv2 = view.findViewById(R.id.textView2);
+                iv = view.findViewById(R.id.imgStatus);
+
 
         }
     }
