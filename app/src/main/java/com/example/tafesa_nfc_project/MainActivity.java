@@ -7,6 +7,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import android.app.PendingIntent;
 import android.content.Context;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.FormatException;
@@ -19,6 +21,7 @@ import android.nfc.tech.NfcA;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.os.AsyncTask;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -28,6 +31,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
@@ -68,8 +74,13 @@ public class    MainActivity extends AppCompatActivity  {
     Tag myTag;
     Context context;
     NfcAdapter nfcAdapter;
+    ProgressBar progressCircle;
+    ImageView approvedCircle;
+    ImageView failedCircle;
 
     String UserGroup = "";
+    View view;
+
     Student user = getUserDetailsfromSession();
     String RoomNum = "";
     @Override
@@ -77,6 +88,10 @@ public class    MainActivity extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressCircle = findViewById(R.id.progressCircle);
+        failedCircle = findViewById(R.id.failedCircle);
+        approvedCircle = findViewById(R.id.approvedCircle);
+        TextView nfcScan = findViewById(R.id.scanText);
         //NFC part
         context = this;
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -86,6 +101,7 @@ public class    MainActivity extends AppCompatActivity  {
         }
         RoomNum = readFromIntent(getIntent());
         Toast.makeText(context, "NFC content: " + RoomNum,Toast.LENGTH_SHORT ).show();
+
         AuthUser currentUser = Amplify.Auth.getCurrentUser();
 
             if (currentUser == null) {
@@ -99,7 +115,7 @@ public class    MainActivity extends AppCompatActivity  {
                 Amplify.Auth.fetchAuthSession(
                     result -> {
                         AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
-                        switch (cognitoAuthSession.getIdentityId().getType()) {
+                        switch(cognitoAuthSession.getIdentityId().getType()) {
                             case SUCCESS:
                                 JWT token = new JWT(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken());
                                 Intent intent;
@@ -155,6 +171,7 @@ public class    MainActivity extends AppCompatActivity  {
     }
 
     private void CheckIfUserBelongsTotheRoom(String userGetId, String roomNum) {
+
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.getDefault());
         SimpleDateFormat tf = new SimpleDateFormat("00:HH:mm", Locale.getDefault());
@@ -177,11 +194,17 @@ public class    MainActivity extends AppCompatActivity  {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                try {
-                    loadIntoListView(s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(s == null)
+                {
+                    failed();
                 }
+                else
+                {
+
+                    approval();
+                }
+
+
             }
 
             @Override
@@ -213,7 +236,10 @@ public class    MainActivity extends AppCompatActivity  {
                     }
                     return sb.toString().trim();
                 } catch (Exception e) {
+
+                    Log.i("FAILED123", e.getMessage());
                     return null;
+
                 }
 
 
@@ -223,17 +249,7 @@ public class    MainActivity extends AppCompatActivity  {
         getJSON.execute();
     }
 
-    private void loadIntoListView(String json) throws JSONException {
-        JSONArray jsonArray = new JSONArray(json);
-        String[] stocks = new String[jsonArray.length()];
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject obj = jsonArray.getJSONObject(i);
-            stocks[i] = obj.getString("SubjectCode");
-        }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks);
 
-
-    }
 
     public String UserGetId()
     {
@@ -333,5 +349,24 @@ public class    MainActivity extends AppCompatActivity  {
             myTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         }
     }
-}
 
+
+
+    public void approval() {
+        approvedCircle.setVisibility(View.VISIBLE);
+        progressCircle.setVisibility(View.GONE);
+        TextView nfcScan = findViewById(R.id.scanText);
+        nfcScan.setText("Successfully Scanned");
+
+    }
+
+    public void failed() {
+        failedCircle.setVisibility(View.VISIBLE);
+        progressCircle.setVisibility(View.GONE);
+        TextView nfcScan = findViewById(R.id.scanText);
+        nfcScan.setText("Failed to scan");
+
+    }
+
+
+}
