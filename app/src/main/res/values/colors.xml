@@ -12,5 +12,8 @@
     <color name="red_500">#BD1427</color>
     <color name="red_700">#B11325</color>
     <color name="green">#39c63e</color>
+    <color name="grey_text">#525252</color>
+    <color name="grey_line">#E0E0E0</color>
+
 
 </resources>
