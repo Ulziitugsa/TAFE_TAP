@@ -208,10 +208,7 @@ public class StudentMainActivity extends AppCompatActivity {
 
     }
 
-    public String UserGetName()
-    {
-        return user.given_name;
-    }
+
 
 
 }

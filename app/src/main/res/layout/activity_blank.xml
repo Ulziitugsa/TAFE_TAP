@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         tools:layout_editor_absoluteX="49dp"
-        tools:layout_editor_absoluteY="94dp" />
+        tools:layout_editor_absoluteY="94dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button3"
@@ -21,5 +22,6 @@
         android:text="Button"
         android:onClick="onPressLogOut"
         tools:layout_editor_absoluteX="49dp"
-        tools:layout_editor_absoluteY="164dp" />
+        tools:layout_editor_absoluteY="164dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

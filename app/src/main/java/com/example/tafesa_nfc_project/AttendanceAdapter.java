@@ -34,6 +34,10 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         this.mlist = list;
     }
 
+    public void aa()
+    {
+
+    }
 
     @NonNull
     @Override
@@ -76,5 +80,6 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
 
         }
     }
+
 }
 

@@ -3,16 +3,10 @@ package com.example.tafesa_nfc_project;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,11 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,11 +34,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -57,6 +47,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class StudentAttendanceActivity extends AppCompatActivity {
@@ -65,7 +56,6 @@ public class StudentAttendanceActivity extends AppCompatActivity {
 
     public String StartDate = "";
     public String EndDate = "";
-    int TermNum = 2;
     int WeekNum = 0;
     int year = Calendar.getInstance().get(Calendar.YEAR);
     List<String> WeekDates;
@@ -87,11 +77,11 @@ public class StudentAttendanceActivity extends AppCompatActivity {
 
         if(user != null)
         {
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.getDefault());
+            String formattedDate = df.format(c);
             //Xampp
-            downloadJSON("http://10.62.114.248:80/test/weekDates.php", year, TermNum, UserGetId());
-
-
-            downloadJSON("http://10.64.96.238:8080/test/weekDates.php", year, TermNum, UserGetId());
+            downloadJSON("http://10.64.97.12:8080/test/weekDates.php", year, formattedDate,"");
 
         }
 
@@ -124,17 +114,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
             return true;
         });
 
-        //Term dates
-        //get the spinner from the xml.
-        Spinner dropdown = findViewById(R.id.termBox);
-        //create a list of items for the spinner.
-        String[] items = new String[]{"Term 4","Term 1 ","Term 2 "};
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        dropdown.setAdapter(adapter);
-        dropdown.setSelection(TermNum);
+
 
         //Subject Title and buttons
         subjectTitle = findViewById(R.id.subjectTitle);
@@ -160,7 +140,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<String> WeekDates()
     {
-
+        int WeekNum = 0;
         Date LclStartDate = null;
         Date LclEndDate = null;
         if(!StartDate.equals("") && !EndDate.equals("")) {
@@ -181,6 +161,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
 
         Calendar start = Calendar.getInstance();
         start.setTime(LclStartDate);
+        start.add(Calendar.DAY_OF_MONTH, WeekNum);
         Calendar end = Calendar.getInstance();
         end.setTime(LclEndDate);
 
@@ -188,7 +169,9 @@ public class StudentAttendanceActivity extends AppCompatActivity {
 
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 7), date = start.getTime()) {
             WeekNum++;
-            String temp = "Week " + WeekNum  + "//" + date.toString();
+            SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.getDefault());
+
+            String temp = "Week " + WeekNum  + "//" + df.format(date);
             list.add(temp);
 
         }
@@ -196,7 +179,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
         return list;
     }
 
-    private void downloadJSON(final String urlWebService, int year, int TermCode, String id) {
+    private void downloadJSON(final String urlWebService, int year, String Date, String SubjectCode) {
 
         class DownloadJSON extends AsyncTask<Void, Void, String> {
 
@@ -232,11 +215,11 @@ public class StudentAttendanceActivity extends AppCompatActivity {
                     con.setDoOutput(true);
 
                     OutputStream ops = con.getOutputStream();
-
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ops, StandardCharsets.UTF_8));
                     String data =
                                 URLEncoder.encode("year", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(year), "UTF-8")
-                                +"&&"+URLEncoder.encode("termcode", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(TermCode), "UTF-8")
+                                        +"&&"+URLEncoder.encode("date","UTF-8")+"="+URLEncoder.encode(String.valueOf(Date),"UTF-8")
+                                        +"&&"+URLEncoder.encode("SubjectCode","UTF-8")+"="+URLEncoder.encode(String.valueOf(SubjectCode),"UTF-8")
                                 +"&&"+URLEncoder.encode("id", "UTF-8")+"="+ URLEncoder.encode(UserGetId(), "UTF-8");
 
                     writer.write(data);
@@ -249,6 +232,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
                     String json;
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json + "\n");
+
                     }
                     return sb.toString().trim();
                 } catch (Exception e) {
@@ -269,6 +253,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
             JSONObject obj = jsonArray.getJSONObject(i);
             StartDate = obj.getString("StartDate");
             EndDate = obj.getString("EndDate");
+            WeekNum = Integer.parseInt(obj.getString("DayCode"));
             termSubjects[i] = obj.getString("SubjectCode");
         }
         subjects = new ArrayList<String>(Arrays.asList(termSubjects));
@@ -380,6 +365,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
         else{
           return;
         }
+        subjectTitle.getText();
     }
 
     public void rightOnClick(View view) {
@@ -396,5 +382,9 @@ public class StudentAttendanceActivity extends AppCompatActivity {
          else{
            return;
          }
+
     }
+
+
+
 }

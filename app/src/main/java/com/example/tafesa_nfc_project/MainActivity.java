@@ -1,54 +1,28 @@
 package com.example.tafesa_nfc_project;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import android.app.PendingIntent;
-import android.content.Context;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcA;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.os.AsyncTask;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
-import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Student;
-import com.auth0.android.jwt.JWT;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -58,18 +32,15 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Properties;
 
-public class    MainActivity extends AppCompatActivity  {
+
+public class MainActivity extends AppCompatActivity  {
 
     Tag myTag;
     Context context;
@@ -79,9 +50,8 @@ public class    MainActivity extends AppCompatActivity  {
     ImageView failedCircle;
 
     String UserGroup = "";
-    View view;
 
-    Student user = getUserDetailsfromSession();
+    Student user = getUserDetailsFromSession();
     String RoomNum = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +65,8 @@ public class    MainActivity extends AppCompatActivity  {
         //NFC part
         context = this;
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (nfcAdapter == null){
-            Toast.makeText(context, "This device does not support NFC",Toast.LENGTH_SHORT ).show();
-            finish();
-        }
-        RoomNum = readFromIntent(getIntent());
-        Toast.makeText(context, "NFC content: " + RoomNum,Toast.LENGTH_SHORT ).show();
-
+            RoomNum = readFromIntent(getIntent());
+            Toast.makeText(context, "NFC content: " + RoomNum, Toast.LENGTH_SHORT).show();
         AuthUser currentUser = Amplify.Auth.getCurrentUser();
 
             if (currentUser == null) {
@@ -117,18 +82,16 @@ public class    MainActivity extends AppCompatActivity  {
                         AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
                         switch(cognitoAuthSession.getIdentityId().getType()) {
                             case SUCCESS:
-                                JWT token = new JWT(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken());
                                 Intent intent;
                                 try {
                                     UserGroup = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("cognito:groups");
-                                    Log.i("AuthQuickStartwtfistji", "IdentityId: " + UserGroup);
-                                    Log.i("THeFUCKIS", "IdentityId: " + UserGroup);
-                                    Log.i("THeFUCKIS", "IdentityId: " + UserGroup.contains("Students"));
+                                    Log.i("StudentDetails", "IdentityId: " + UserGroup);
+                                    Log.i("StudentDetails", "IdentityId: " + UserGroup.contains("Students"));
                                     if (UserGroup.contains("Students")) {
-                                        Log.i("PLSSSS", "a");
-                                        if(RoomNum != "") {
-                                            nfcScan.setVisibility(view.VISIBLE);
-                                            NFCMainFunc(RoomNum);
+                                        if(!RoomNum.equals("")) {
+                                            nfcScan.setVisibility(View.VISIBLE);
+                                            Log.i("elloo", "jk");
+                                            CheckIfUserBelongsToTheRoom(UserGetId(), RoomNum);
                                         }
                                         else {
                                             intent = new Intent(this, StudentMainActivity.class);
@@ -145,7 +108,7 @@ public class    MainActivity extends AppCompatActivity  {
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.e("DUMBASS", e.getMessage());
+                                    Log.e("MainActivityError", e.getMessage());
                                     Intent intent1 = new Intent(this, LoginActivity.class);
                                     startActivity(intent1);
                                 }
@@ -165,23 +128,22 @@ public class    MainActivity extends AppCompatActivity  {
         }
 
 
-    void NFCMainFunc (String RoomNum)
-    {
-            CheckIfUserBelongsTotheRoom(UserGetId(), RoomNum);
-    }
-
-    private void CheckIfUserBelongsTotheRoom(String userGetId, String roomNum) {
+    private void CheckIfUserBelongsToTheRoom(String userGetId, String roomNum) {
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.getDefault());
         SimpleDateFormat tf = new SimpleDateFormat("00:HH:mm", Locale.getDefault());
         String formattedDate = df.format(c);
         String formattedTime = tf.format(c);
-        downloadJSON("http://192.168.0.120:8080/test/ScanIn.php", roomNum, userGetId, formattedDate, formattedTime);
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(c);
+        int dayOfWeek = ca.get(Calendar.DAY_OF_WEEK)-1;
+        downloadJSON("http://10.64.97.12:8080/test/ScanIn.php", roomNum, userGetId, formattedDate, formattedTime, dayOfWeek);
     }
 
-    private void downloadJSON(final String urlWebService,  String roomNum, String id, String Date, String Time) {
+    private void downloadJSON(final String urlWebService,  String roomNum, String id, String Date, String Time, int dayOfWeek) {
 
+        @SuppressLint("StaticFieldLeak")
         class DownloadJSON extends AsyncTask<Void, Void, String> {
 
             @Override
@@ -194,9 +156,9 @@ public class    MainActivity extends AppCompatActivity  {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                if(s == null)
+                if(s == null || s.contains("No subject found") || s.contains("No term found") || s.contains("Failed to connect to MySQL:") || s.contains("error"))
                 {
-                    failed();
+                    failed(s);
                 }
                 else
                 {
@@ -216,18 +178,18 @@ public class    MainActivity extends AppCompatActivity  {
                     con.setDoInput(true);
                     con.setDoOutput(true);
                     OutputStream ops = con.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ops,"UTF-8"));
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ops, StandardCharsets.UTF_8));
                     String data = URLEncoder.encode("id","UTF-8")+"="+URLEncoder.encode(id,"UTF-8")
                             +"&&"+URLEncoder.encode("roomNum","UTF-8")+"="+URLEncoder.encode(String.valueOf(roomNum),"UTF-8")
                             +"&&"+URLEncoder.encode("date","UTF-8")+"="+URLEncoder.encode(String.valueOf(Date),"UTF-8")
-                            +"&&"+URLEncoder.encode("time","UTF-8")+"="+URLEncoder.encode(String.valueOf(Time),"UTF-8");
+                            +"&&"+URLEncoder.encode("time","UTF-8")+"="+URLEncoder.encode(String.valueOf(Time),"UTF-8")
+                            +"&&"+URLEncoder.encode("dayOfWeek","UTF-8")+"="+URLEncoder.encode(String.valueOf(dayOfWeek),"UTF-8");
 
                     writer.write(data);
                     writer.flush();
                     writer.close();
                     ops.close();
 
-                    InputStream ips = con.getInputStream();
                     StringBuilder sb = new StringBuilder();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String json;
@@ -256,10 +218,10 @@ public class    MainActivity extends AppCompatActivity  {
         return user.id;
     }
 
-    public Student getUserDetailsfromSession()
+    public Student getUserDetailsFromSession()
     {
         Student student = new Student();
-        //Getting user information from the userpool
+        //Getting user information from the UserPool
         String[] id = {null};
         String[] UserGivenName = {null};
         String[] email = {null};
@@ -300,10 +262,10 @@ public class    MainActivity extends AppCompatActivity  {
                 error -> Log.e("AuthQuickStart", error.toString())
         );
 
-        Log.i("ABCDE", "A:" + student.getId());
-        Log.i("ABCD", "A:" + student.getEmail());
-        Log.i("ABCD", "A:" + student.getFamilyName());
-        Log.i("ABCD", "A:" + student.getGivenName());
+        Log.i("StudentInfoTest", "A:" + student.getId());
+        Log.i("StudentInfoTest", "A:" + student.getEmail());
+        Log.i("StudentInfoTest", "A:" + student.getFamilyName());
+        Log.i("StudentInfoTest", "A:" + student.getGivenName());
         return student;
 
     }
@@ -352,6 +314,7 @@ public class    MainActivity extends AppCompatActivity  {
 
 
 
+    @SuppressLint("SetTextI18n")
     public void approval() {
         approvedCircle.setVisibility(View.VISIBLE);
         progressCircle.setVisibility(View.GONE);
@@ -360,11 +323,12 @@ public class    MainActivity extends AppCompatActivity  {
 
     }
 
-    public void failed() {
+    @SuppressLint("SetTextI18n")
+    public void failed(String s) {
         failedCircle.setVisibility(View.VISIBLE);
         progressCircle.setVisibility(View.GONE);
         TextView nfcScan = findViewById(R.id.scanText);
-        nfcScan.setText("Failed to scan");
+        nfcScan.setText("Failed to scan : " + s);
 
     }
 

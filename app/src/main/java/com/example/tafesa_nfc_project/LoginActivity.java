@@ -9,14 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.amazonaws.mobileconnectors.cognitoauth.Auth;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
 import com.amplifyframework.auth.AuthException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.generated.model.Lecturer;
-import com.auth0.android.jwt.JWT;
 
 import org.json.JSONException;
 
@@ -41,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
                 this::onLoginError
         );
 
-        Object a = Amplify.Auth.getCurrentUser();
     }
 
     private void onLoginError(AuthException e) {
@@ -55,13 +51,12 @@ public class LoginActivity extends AppCompatActivity {
                     AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
                     switch(cognitoAuthSession.getIdentityId().getType()) {
                         case SUCCESS:
-                            JWT token = new JWT(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken());
                             try {
                                 UserGroup = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("cognito:groups");
-                                Log.i("AuthQuickStartwtfistji", "IdentityId: " + UserGroup);
+                                Log.i("StudentDetails", "IdentityId: " + UserGroup);
                                 Intent intent = new Intent();
-                                Log.i("THeFUCKIS", "IdentityId: " + UserGroup);
-                                Log.i("THeFUCKIS", "IdentityId: " + UserGroup.contains("Students"));
+                                Log.i("StudentDetails", "IdentityId: " + UserGroup);
+                                Log.i("StudentDetails", "IdentityId: " + UserGroup.contains("Students"));
                                 if(UserGroup.contains("Students")) {
                                     intent = new Intent(this, StudentMainActivity.class);
                                 }
