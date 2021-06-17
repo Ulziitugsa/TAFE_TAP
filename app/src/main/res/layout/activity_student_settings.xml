@@ -16,21 +16,60 @@
     -->
 
     <!-- probably change it to margins if it doesn't work -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recView"
+    <LinearLayout
+        android:id="@+id/loSettingsRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:clipToPadding="false"
-        android:paddingBottom="5dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
+        <Button
+            android:id="@+id/btnAccount"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="right"
+            android:gravity="bottom"
+            android:text="Account"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/btnLogOut"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="fill"
+            android:gravity="bottom"
+            android:text="Log Out"
+            android:textColor="@color/black"/>
+        <Button
+            android:id="@+id/btnChangePw"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="fill"
+            android:gravity="bottom"
+            android:text="Change Password"
+            android:textColor="@color/black"/>
+        <Button
+            android:id="@+id/btnHelp"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="fill"
+            android:gravity="bottom"
+            android:text="Help"
+            android:textColor="@color/black"/>
+        <Button
+            android:id="@+id/btnLegal"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="fill"
+            android:gravity="bottom"
+            android:text="Legal"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
@@ -44,7 +83,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--

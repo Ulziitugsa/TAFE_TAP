@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.auth.options.AuthSignOutOptions;
+import com.amplifyframework.core.Amplify;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.Array;
@@ -29,7 +34,9 @@ public class StudentSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_settings);
-
+        Button btnSend;
+        btnSend = (Button) this.findViewById(R.id.btnLogOut);
+        btnSend.setOnClickListener(new LogOutButtonClick());
         //Bottom Navigation View
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
         //changes the menu button colors
@@ -62,30 +69,29 @@ public class StudentSettingsActivity extends AppCompatActivity {
             }
         });
 
-        // recyclerview stuff
-        recyclerView = findViewById(R.id.recView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        //GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),3);
-        //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new SettingsAdapter(getApplicationContext(), inintList()));
-        //Recycler View Onclick
+
     }
 
+    public class LogOutButtonClick implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Amplify.Auth.signOut(
+                    AuthSignOutOptions.builder().globalSignOut(true).build(),
+                    () -> Log.i("AuthQuickstart", "Signed out globally"),
+                    error -> Log.e("AuthQuickstart", error.toString())
 
-    /*
 
-    public void onPressLogOut(View view) {
-        Amplify.Auth.signOut(
-                AuthSignOutOptions.builder().globalSignOut(true).build(),
-                () -> Log.i("AuthQuickstart", "Signed out globally"),
-                error -> Log.e("AuthQuickstart", error.toString())
-
-
-        );
-        onLogOutSuccess();
+            );
+            onLogOutSuccess();
+        }
     }
-     */
+    private void onLogOutSuccess() {
+        Log.i("AuthQuickstart", "Signed out globally");
+        Intent intent = new Intent(this, LoginActivity.class);
+
+        startActivity(intent);
+    }
+
     public ArrayList inintList () {
         ArrayList<ArrayList> list = new ArrayList<ArrayList>();
        /*
