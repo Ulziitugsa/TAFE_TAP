@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity  {
         Calendar ca = Calendar.getInstance();
         ca.setTime(c);
         int dayOfWeek = ca.get(Calendar.DAY_OF_WEEK)-1;
-        downloadJSON("http://10.64.97.12:8080/test/ScanIn.php", roomNum, userGetId, formattedDate, formattedTime, dayOfWeek);
+        downloadJSON("http://192.168.137.1:8080/test/ScanIn.php", roomNum, userGetId, formattedDate, formattedTime, dayOfWeek);
     }
 
     private void downloadJSON(final String urlWebService,  String roomNum, String id, String Date, String Time, int dayOfWeek) {

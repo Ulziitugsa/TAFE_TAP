@@ -81,7 +81,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
             SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.getDefault());
             String formattedDate = df.format(c);
             //Xampp
-            downloadJSON("http://10.64.97.12:8080/test/weekDates.php", year, formattedDate,"");
+            downloadJSON("http://192.168.137.1:8080/test/weekDates.php", year, formattedDate,"");
 
         }
 

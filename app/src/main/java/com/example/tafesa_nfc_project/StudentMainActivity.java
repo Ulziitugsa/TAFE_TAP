@@ -2,27 +2,18 @@ package com.example.tafesa_nfc_project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
-import com.amplifyframework.auth.AuthException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
@@ -30,18 +21,11 @@ import com.amplifyframework.datastore.generated.model.Student;
 import com.auth0.android.jwt.JWT;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.jar.Attributes;
 
 public class StudentMainActivity extends AppCompatActivity {
 
@@ -52,6 +36,7 @@ public class StudentMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
         //setups
+
 
         //Bottom Navigation View
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
@@ -89,12 +74,10 @@ public class StudentMainActivity extends AppCompatActivity {
 
 
         listView = (ListView) findViewById(R.id.listView);
-        TextView NameTxt = (TextView)findViewById(R.id.textView3);
 
         CalendarView calendarView=(CalendarView) findViewById(R.id.calendarView1);
         user = getUserDetailsfromSession();
-
-        NameTxt.setText(user.given_name);
+       // a.setText(user.given_name);
         Log.i("ACDC", "A:" + user.getId());
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -177,7 +160,8 @@ public class StudentMainActivity extends AppCompatActivity {
                                 UserGivenName[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("given_name");
                                 email[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("email");
                                 family_name[0] = CognitoJWTParser.getPayload(cognitoAuthSession.getUserPoolTokens().getValue().getIdToken()).getString("family_name");
-
+                                TextView a = (TextView) findViewById(R.id.txtName1);
+                                a.setText(UserGivenName[0]);
 
 
 
